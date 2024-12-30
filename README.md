@@ -333,4 +333,125 @@ Contributions are welcome! Feel free to create issues or submit pull requests.
 ## License
 Project Lombok is licensed under the MIT License.
 
+# Jakarta Persistence (JPA)
+
+Jakarta Persistence (JPA) is a Jakarta EE specification for managing relational data in Java applications. It provides an Object-Relational Mapping (ORM) framework, enabling developers to interact with databases using Java objects.
+
+## Key Features
+
+- **Annotations**: Use annotations to define mappings between Java objects and database tables.
+- **Entity Classes**: Represent tables in the database.
+- **Queries**: Utilize JPQL (Jakarta Persistence Query Language) for database operations.
+- **Transactions**: Manage database transactions declaratively.
+- **Relationships**: Model relationships between entities.
+
+## Setting Up JPA
+
+1. Add the Jakarta Persistence dependency to your project.
+2. Define the `persistence.xml` file in the `META-INF` directory.
+3. Annotate your entity classes with `@Entity` and map fields to table columns.
+4. Use the `EntityManager` to persist and retrieve data.
+
+## Multiplicity in Entity Relationships
+
+Multiplicity defines the type of relationships between entities and is categorized as follows:
+
+### One-to-One
+Each entity instance is related to a single instance of another entity. For example, a storage bin containing a single widget represents a one-to-one relationship. Use the `jakarta.persistence.OneToOne` annotation.
+
+### One-to-Many
+An entity instance can be related to multiple instances of another entity. For example, a sales order can have multiple line items. Use the `jakarta.persistence.OneToMany` annotation.
+
+### Many-to-One
+Multiple instances of an entity can relate to a single instance of another entity. For example, multiple line items belonging to one customer order represent a many-to-one relationship. Use the `jakarta.persistence.ManyToOne` annotation.
+
+### Many-to-Many
+Entities can relate to multiple instances of each other. For example, students and courses in a university system. Use the `jakarta.persistence.ManyToMany` annotation.
+
+## Direction in Entity Relationships
+
+### Bidirectional Relationships
+Both entities in the relationship reference each other. Rules for bidirectional relationships include:
+- The inverse side must use the `mappedBy` element.
+- The many side of a many-to-one relationship is the owning side.
+- For one-to-one relationships, the owning side contains the foreign key.
+- For many-to-many relationships, either side can be the owning side.
+
+### Unidirectional Relationships
+Only one entity references the other. For example, a `LineItem` references a `Product`, but the `Product` does not reference the `LineItem`.
+
+## Queries and Relationship Direction
+The direction of relationships determines how queries navigate entities. For example, queries can navigate from `LineItem` to `Product` in a unidirectional relationship but not in the opposite direction.
+
+## Cascade Operations and Relationships
+
+Cascade operations define how changes in one entity affect related entities. These operations include:
+
+- **ALL**: Applies all cascade operations.
+- **DETACH**: Detaches related entities.
+- **MERGE**: Merges related entities.
+- **PERSIST**: Persists related entities.
+- **REFRESH**: Refreshes related entities.
+- **REMOVE**: Removes related entities.
+
+Use `cascade=REMOVE` for cascade delete relationships. For example:
+
+```java
+@OneToMany(cascade=REMOVE, mappedBy="customer")
+public Set<CustomerOrder> getOrders() { return orders; }
+```
+
+### Orphan Removal
+Specifies that orphaned entities should be removed. For example:
+
+```java
+@OneToMany(mappedBy="customer", orphanRemoval=true)
+public List<CustomerOrder> getOrders() { ... }
+```
+
+## Embeddable Classes in Entities
+
+Embeddable classes represent state without a persistent identity. Use the `jakarta.persistence.Embeddable` annotation for such classes. Example:
+
+```java
+@Embeddable
+public class ZipCode {
+    String zip;
+    String plusFour;
+    ...
+}
+
+@Entity
+public class Address {
+    @Embedded
+    ZipCode zipCode;
+    ...
+}
+```
+
+## Entity Inheritance
+Entities support inheritance, polymorphic associations, and polymorphic queries.
+
+### Abstract Entities
+Abstract classes can be entities. For example:
+
+```java
+@Entity
+public abstract class Employee {
+    @Id
+    protected Integer employeeId;
+    ...
+}
+
+@Entity
+public class FullTimeEmployee extends Employee {
+    protected Integer salary;
+    ...
+}
+
+@Entity
+public class PartTimeEmployee extends Employee {
+    protected Float hourlyWage;
+}
+```
 
