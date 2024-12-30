@@ -127,5 +127,210 @@ java -cp target/laptop-management-system-1.0-SNAPSHOT.jar com.yourcompanyname.pr
    ```bash
    https://github.com/MdMohsinHaider/Laptop_Management_System_using-JPA-Hibernate.git
    ```
+# Project Lombok
+
+Project Lombok is a powerful Java library that simplifies coding by generating boilerplate code at compile time, making your code concise and clean. Below are some of the most commonly used annotations in Project Lombok and their functionalities.
+
+---
+
+## Annotations
+
+### `val`
+**Finally! Hassle-free final local variables.**
+- Automatically declares a final local variable with inferred type.
+- Syntax: `val variableName = value;`
+- Example:
+  ```java
+  val name = "Lombok"; // Inferred as final String name
+  ```
+
+### `var`
+**Mutably! Hassle-free local variables.**
+- Declares a mutable local variable with inferred type.
+- Syntax: `var variableName = value;`
+- Example:
+  ```java
+  var count = 10; // Inferred as int count
+  ```
+
+### `@NonNull`
+**Or: How I learned to stop worrying and love the NullPointerException.**
+- Automatically generates null checks for fields or method parameters.
+- Example:
+  ```java
+  public void setName(@NonNull String name) {
+      this.name = name; // Throws NullPointerException if name is null
+  }
+  ```
+
+### `@Cleanup`
+**Automatic resource management: Call your `close()` methods safely with no hassle.**
+- Ensures that resources are properly closed at the end of the scope.
+- Example:
+  ```java
+  @Cleanup InputStream in = new FileInputStream("file.txt");
+  ```
+
+### `@Getter` / `@Setter`
+**Never write `public int getFoo() {return foo;}` again.**
+- Automatically generates getter and setter methods for fields.
+- Example:
+  ```java
+  @Getter @Setter private String name;
+  ```
+
+### `@ToString`
+**No need to start a debugger to see your fields: Just let Lombok generate a `toString` for you!**
+- Generates a `toString` method that includes class fields.
+- Example:
+  ```java
+  @ToString
+  public class Person {
+      private String name;
+      private int age;
+  }
+  ```
+
+### `@EqualsAndHashCode`
+**Equality made easy: Generates `hashCode` and `equals` implementations from the fields of your object.**
+- Example:
+  ```java
+  @EqualsAndHashCode
+  public class Person {
+      private String name;
+      private int age;
+  }
+  ```
+
+### `@NoArgsConstructor`, `@RequiredArgsConstructor`, and `@AllArgsConstructor`
+**Constructors made to order.**
+- `@NoArgsConstructor`: Generates a no-argument constructor.
+- `@RequiredArgsConstructor`: Generates a constructor for final or `@NonNull` fields.
+- `@AllArgsConstructor`: Generates a constructor for all fields.
+
+### `@Data`
+**All together now.**
+- Combines `@ToString`, `@EqualsAndHashCode`, `@Getter` on all fields, `@Setter` on non-final fields, and `@RequiredArgsConstructor`.
+- Example:
+  ```java
+  @Data
+  public class Person {
+      private final String name;
+      private int age;
+  }
+  ```
+
+### `@Value`
+**Immutable classes made very easy.**
+- Marks a class as immutable. Combines `@ToString`, `@EqualsAndHashCode`, `@Getter` on all fields, `@AllArgsConstructor`, and fields are `final` by default.
+- Example:
+  ```java
+  @Value
+  public class Person {
+      String name;
+      int age;
+  }
+  ```
+
+### `@Builder`
+**No-hassle fancy-pants APIs for object creation!**
+- Generates a builder API for your class.
+- Example:
+  ```java
+  @Builder
+  public class Person {
+      private String name;
+      private int age;
+  }
+  ```
+
+### `@SneakyThrows`
+**To boldly throw checked exceptions where no one has thrown them before!**
+- Allows methods to throw checked exceptions without declaring them in the method signature.
+- Example:
+  ```java
+  @SneakyThrows
+  public void readFile() {
+      Files.readAllBytes(Paths.get("file.txt"));
+  }
+  ```
+
+### `@Synchronized`
+**Synchronized done right: Don't expose your locks.**
+- Ensures thread-safe access to methods.
+- Example:
+  ```java
+  @Synchronized
+  public void safeMethod() {
+      // Thread-safe code
+  }
+  ```
+
+### `@With`
+**Immutable 'setters' - methods that create a clone but with one changed field.**
+- Example:
+  ```java
+  @With
+  @Value
+  public class Person {
+      String name;
+      int age;
+  }
+  ```
+
+### `@Log`
+**Captain's Log: Easy logging setup.**
+- Generates a logger instance for the class.
+- Variants include `@Log`, `@Slf4j`, `@Log4j`, etc.
+- Example:
+  ```java
+  @Log
+  public class MyClass {
+      public void logSomething() {
+          log.info("Logging is easy with Lombok!");
+      }
+  }
+  ```
+
+### Experimental Features
+**Head to the lab: The new stuff we're working on.**
+- Experimental features are available for testing. Use them with caution as they may change or be removed in future versions.
+
+---
+
+## How to Use
+
+1. Add Lombok to your project:
+    - **Maven:**
+      ```xml
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>YOUR_VERSION</version>
+          <scope>provided</scope>
+      </dependency>
+      ```
+    - **Gradle:**
+      ```gradle
+      compileOnly 'org.projectlombok:lombok:YOUR_VERSION'
+      annotationProcessor 'org.projectlombok:lombok:YOUR_VERSION'
+      ```
+
+2. Enable annotation processing in your IDE.
+
+---
+
+## Documentation
+For detailed documentation, visit the [official Project Lombok site](https://projectlombok.org/).
+
+---
+
+## Contributing
+Contributions are welcome! Feel free to create issues or submit pull requests.
+
+---
+
+## License
+Project Lombok is licensed under the MIT License.
 
 
